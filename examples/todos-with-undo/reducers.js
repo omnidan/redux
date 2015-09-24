@@ -1,7 +1,7 @@
 // Redux utility functions
 import { combineReducers } from 'redux';
 // Redux Undo store enhancer
-import undoable from 'redux-undo';
+import undoable, { distinctState } from 'redux-undo';
 
 import { ADD_TODO, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters } from './actions';
 const { SHOW_ALL } = VisibilityFilters;
@@ -37,7 +37,7 @@ function todos(state = [], action) {
 
 const todoApp = combineReducers({
   visibilityFilter,
-  todos: undoable(todos)
+  todos: undoable(todos, { filter: distinctState() })
 });
 
 export default todoApp;

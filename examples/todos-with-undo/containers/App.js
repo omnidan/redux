@@ -13,25 +13,17 @@ class App extends Component {
     return (
       <div>
         <AddTodo
-          onAddClick={text =>
-            dispatch(addTodo(text))
-          } />
+          onAddClick={text => dispatch(addTodo(text))} />
         <TodoList
           todos={visibleTodos}
-          onTodoClick={index =>
-            dispatch(completeTodo(index))
-          } />
+          onTodoClick={index => dispatch(completeTodo(index))} />
         <Footer
           filter={visibilityFilter}
-          onFilterChange={nextFilter =>
-            dispatch(setVisibilityFilter(nextFilter))
-          }
-          onUndo={() =>
-            dispatch(ActionCreators.undo())
-          }
-          onRedo={() =>
-            dispatch(ActionCreators.redo())
-          } />
+          onFilterChange={nextFilter => dispatch(setVisibilityFilter(nextFilter))}
+          onUndo={() => dispatch(ActionCreators.undo())}
+          onRedo={() => dispatch(ActionCreators.redo())}
+          undoDisabled={this.props.undoDisabled}
+          redoDisabled={this.props.redoDisabled} />
       </div>
     );
   }
@@ -47,7 +39,9 @@ App.propTypes = {
     'SHOW_ALL',
     'SHOW_COMPLETED',
     'SHOW_ACTIVE'
-  ]).isRequired
+  ]).isRequired,
+  undoDisabled: PropTypes.bool.isRequired,
+  redoDisabled: PropTypes.bool.isRequired
 };
 
 function selectTodos(todos, filter) {
@@ -65,10 +59,12 @@ function selectTodos(todos, filter) {
 // Which props do we want to inject, given the global state?
 // Note: use https://github.com/faassen/reselect for better performance.
 function select(state) {
-  // don't forget to append `.currentState` to all undoable parts of the state
+  // don't forget to append `.present` to all undoable parts of the state
   return {
-    visibleTodos: selectTodos(state.todos.currentState, state.visibilityFilter),
-    visibilityFilter: state.visibilityFilter
+    visibleTodos: selectTodos(state.todos.present, state.visibilityFilter),
+    visibilityFilter: state.visibilityFilter,
+    undoDisabled: state.todos.history.past.length === 0, // disable undo button when undo is not possible (past not available)
+    redoDisabled: state.todos.history.future.length === 0 // disable redo button when redo is not possible (future not available)
   };
 }
 

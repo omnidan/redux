@@ -34,8 +34,8 @@ export default class Footer extends Component {
   renderUndo() {
     return (
       <p>
-        <button onClick={this.props.onUndo}>Undo</button>
-        <button onClick={this.props.onRedo}>Redo</button>
+        <button onClick={this.props.onUndo} disabled={this.props.undoDisabled}>Undo</button>
+        <button onClick={this.props.onRedo} disabled={this.props.redoDisabled}>Redo</button>
       </p>
     );
   }
@@ -54,6 +54,8 @@ Footer.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   onUndo: PropTypes.func.isRequired,
   onRedo: PropTypes.func.isRequired,
+  undoDisabled: PropTypes.bool.isRequired,
+  redoDisabled: PropTypes.bool.isRequired,
   filter: PropTypes.oneOf([
     'SHOW_ALL',
     'SHOW_COMPLETED',

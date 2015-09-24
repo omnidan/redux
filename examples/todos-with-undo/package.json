@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "description": "Redux todos with undo example",
   "scripts": {
-    "start": "node server.js",
-    "test": "NODE_ENV=test mocha --recursive --compilers js:babel-core/register",
-    "test:watch": "npm test -- --watch"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +19,7 @@
     "react-redux": "^2.1.2",
     "redux": "^3.0.0",
     "redux-thunk": "^0.1.0",
-    "redux-undo": "^0.3.0"
+    "redux-undo": "^0.4.1"
   },
   "devDependencies": {
     "babel-core": "^5.6.18",
